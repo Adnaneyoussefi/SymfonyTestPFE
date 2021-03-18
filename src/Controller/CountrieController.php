@@ -39,11 +39,9 @@ class CountrieController extends AbstractController
                 elseif(!empty($form->getNormData()->recherche)) {
                     return (strpos(strtolower($x->getsName()), strtolower($form->getNormData()->recherche)) === 0);
                 }
-                elseif(!empty($form->getNormData()->recherche)) {
+                elseif(!empty($form->getNormData()->continents)) {
                     return (in_array($x->getContinent()->getsCode(), $form->getNormData()->continents));
                 }
-
-                //return (in_array($x->getContinent()->getsCode(), $form->getNormData()->continents));
             });
         }
 
