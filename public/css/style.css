@@ -1,0 +1,10 @@
+.cardContinent:hover {
+    cursor: pointer;
+    background-color: rgb(1, 140, 233);
+    transition: width 2s;
+}
+
+.aContinent:hover {
+    text-decoration: none;
+    color: white;
+}
