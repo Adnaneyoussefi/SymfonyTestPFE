@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Countrie;
+use App\Entity\Language;
 use App\Entity\Continent;
 use App\service\CountrieService;
+use App\service\LanguageService;
 use App\service\ContinentService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -51,7 +53,9 @@ class ContinentController extends AbstractController
             8
         );
 
-        dump($continent->getCountries());
+        $languageService = new LanguageService();
+
+        dump($languageService->getLanguagesData());
         return $this->render('continent/detail.html.twig', [
             'countries' => $page
         ]);

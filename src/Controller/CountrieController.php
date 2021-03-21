@@ -57,7 +57,19 @@ class CountrieController extends AbstractController
 
         //$params = new \stdClass();
 
-        dump($form);
+        require('C:\Users\adnan\Desktop\SymfonyTest1\src\config\serviceSoap.php');
+
+        /*$countriesRaw = $soapClient->FullCountryInfoAllCountries()
+        ->FullCountryInfoAllCountriesResult
+        ->tCountryInfo;*/
+
+        $msc = microtime(true);
+        $soapClient->FullCountryInfoAllCountries()
+        ->FullCountryInfoAllCountriesResult
+        ->tCountryInfo;
+        $msc = microtime(true)-$msc;
+        
+        dump($msc);
         return $this->render('countrie/index.html.twig', [
             'controller_name' => 'CountrieController',
             'listCountrie' => $page,

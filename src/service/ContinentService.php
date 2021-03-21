@@ -12,6 +12,7 @@ class ContinentService {
      * @return Continent[]
      */
     public function getContinentsData(): array {
+        
         require('C:\Users\adnan\Desktop\SymfonyTest1\src\config\serviceSoap.php');
 
         $continents = [];

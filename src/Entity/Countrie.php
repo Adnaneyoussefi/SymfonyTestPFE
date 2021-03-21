@@ -107,4 +107,12 @@ class Countrie
 
         return $this;
     }
+
+    public function addLanguages(Language $language): self
+    {
+        $this->languages[] = $language;
+        //array_push($this->countries, $countrie);
+
+        return $this;
+    }
 }

@@ -2,11 +2,15 @@
 
 namespace App\Entity;
 
+use App\Entity\Countrie;
+
 class Language
 {
     private $sISOCode;
 
     private $sName;
+
+    private $countries = [];
 
     public function getsISOCode(): ?string
     {
@@ -28,6 +32,29 @@ class Language
     public function setsName(string $sName): self
     {
         $this->sName = $sName;
+
+        return $this;
+    }
+
+    /**
+     * @return Countrie[]
+     */
+    public function getCountries(): array
+    {
+        return $this->countries;
+    }
+
+    public function setCountries(array $countries): self
+    {
+        $this->countries = $countries;
+
+        return $this;
+    }
+
+    public function addCountries(Countrie $countrie): self
+    {
+        $this->countries[] = $countrie;
+        //array_push($this->countries, $countrie);
 
         return $this;
     }
