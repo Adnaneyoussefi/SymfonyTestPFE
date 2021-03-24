@@ -5,7 +5,7 @@ namespace App\Entity;
 use App\Entity\Language;
 use App\Entity\Continent;
 
-class Countrie
+class Country
 {
     private $sISOCode;
 

@@ -4,8 +4,12 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    app.api_country: 'http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?wsdl'
 
 services:
+    App\service\CountryAPI:
+        arguments:
+            $api_country: '%app.api_country%'
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
@@ -25,7 +29,7 @@ services:
     # as action arguments even if you don't extend any base controller class
     App\Controller\:
         resource: '../src/Controller/'
-        tags: ['controller.service_arguments']
+        tags: ['controller.service_arguments']   
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

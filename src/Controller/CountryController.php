@@ -3,30 +3,32 @@
 namespace App\Controller;
 
 use App\Data\SearchData;
-use App\Entity\Countrie;
-use App\Entity\Language;
-use App\Entity\Continent;
+use App\service\AllData;
+use App\service\CountryAPI;
 use App\Form\SearchFormType;
-use App\service\CountrieService;
-use App\service\ContinentService;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class CountrieController extends AbstractController
+class CountryController extends AbstractController
 {
     /**
-     * @Route("/countrie", name="countrie")
+     * @Route("/countries", name="countries")
      */
-    public function index(PaginatorInterface $paginator, Request $request): Response
+    public function index(PaginatorInterface $paginator, Request $request, CacheInterface $cache): Response
     {
-        $countrieService = new CountrieService();
-        $countries = $countrieService->getCountryData();
-        $languages = [];
-        $tab = [];
-        
+        $allData = new AllData();
+        $countryApi = new CountryAPI();
+        $allData->setService($countryApi);
+        //$countries = $allData->getAllData()["country"];
+
+        $countries = $cache->get('countries', function() use($allData) {
+            return $allData->getAllData()["country"];
+        });
+
         $data = new SearchData();
         $form = $this->createForm(SearchFormType::class, $data);
         $form->handleRequest($request);
@@ -51,30 +53,20 @@ class CountrieController extends AbstractController
             12
         );
 
-        $b = array_map(function ($v) {
-            return $v->getsName();
-        }, $countries);
-
-        //$params = new \stdClass();
-
-        require('C:\Users\adnan\Desktop\SymfonyTest1\src\config\serviceSoap.php');
-
-        /*$countriesRaw = $soapClient->FullCountryInfoAllCountries()
-        ->FullCountryInfoAllCountriesResult
-        ->tCountryInfo;*/
-
-        $msc = microtime(true);
-        $soapClient->FullCountryInfoAllCountries()
-        ->FullCountryInfoAllCountriesResult
-        ->tCountryInfo;
-        $msc = microtime(true)-$msc;
-        
-        dump($msc);
-        return $this->render('countrie/index.html.twig', [
+        return $this->render('country/index.html.twig', [
             'controller_name' => 'CountrieController',
             'listCountrie' => $page,
             'form' => $form->createView()
         ]);
+
+        //$params = new \stdClass();
+
+        /*$msc = microtime(true);
+        $soapClient->FullCountryInfoAllCountries()
+        ->FullCountryInfoAllCountriesResult
+        ->tCountryInfo;
+        $msc = microtime(true)-$msc;
+        var_dump($msc);*/
         
         /*$a = array_filter($result, function($x) {
             return (!isset($x->Languages->tLanguage));

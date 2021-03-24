@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Entity\Countrie;
+use App\Entity\Country;
 
 class Language
 {
@@ -51,7 +51,7 @@ class Language
         return $this;
     }
 
-    public function addCountries(Countrie $countrie): self
+    public function addCountries(Country $countrie): self
     {
         $this->countries[] = $countrie;
         //array_push($this->countries, $countrie);
