@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\service\AllData;
-use App\service\CountryAPI;
+use App\Service\AllData;
+use App\Service\CountryAPI;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,13 +16,8 @@ class ContinentController extends AbstractController
     /**
      * @Route("/continents", name="continents")
      */
-    public function index(CacheInterface $cache): Response
+    public function index(CacheInterface $cache, AllData $allData): Response
     {
-        $allData = new AllData();
-        $countryApi = new CountryAPI();
-        $allData->setService($countryApi);
-        //$continents = $allData->getAllData()["continent"];
-
         $continents = $cache->get('continents', function() use($allData) {
             return $allData->getAllData()["continent"];
         });
@@ -35,12 +30,8 @@ class ContinentController extends AbstractController
     /**
      * @Route("/continents/{sCode}", name="countryByContinent", methods={"GET","POST"})
      */
-    public function afficher(PaginatorInterface $paginator, Request $request, CacheInterface $cache): Response {
-
-        $allData = new AllData();
-        $countryApi = new CountryAPI();
-        $allData->setService($countryApi);
-        //$continents = $allData->getAllData()["continent"];
+    public function afficher(PaginatorInterface $paginator, Request $request, CacheInterface $cache, 
+    AllData $allData): Response {
         
         $continents = $cache->get('continents', function() use($allData) {
             return $allData->getAllData()["continent"];

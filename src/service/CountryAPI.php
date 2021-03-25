@@ -1,25 +1,23 @@
 <?php
 
-namespace App\service;
+namespace App\Service;
 
 use App\Entity\Country;
 use App\Entity\Language;
 use App\Entity\Continent;
-use App\service\Iservice;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
+use App\Service\Iservice;
 
 class CountryAPI implements Iservice {
 
     private $api_country;
 
-    public function __construct1($api_country)
+    public function __construct(string $api_country)
     {
         $this->api_country = $api_country;
     }
 
     public function getModels(): array {
-        $soapClient = new \SoapClient($this->getParameter('app.api_country'));
+        $soapClient = new \SoapClient($this->api_country);
         return ["country" => $this->getCountryData($soapClient), 
                 "continent" => $this->getContinentWithCountryData($soapClient), 
                 "language" => $this->getLanguageWithCountryData($soapClient)];
@@ -151,15 +149,5 @@ class CountryAPI implements Iservice {
         }
 
         return $languages;
-    }
-
-    public function __construct()
-    {
-        $arguments = func_get_args();
-        $numberOfArguments = func_num_args();
-
-        if (method_exists($this, $function = '__construct'.$numberOfArguments)) {
-            call_user_func_array(array($this, $function), $arguments);
-        }
     }
 }

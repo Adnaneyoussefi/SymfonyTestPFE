@@ -1,13 +1,18 @@
 <?php
 
-namespace App\service;
+namespace App\Service;
 
-use App\service\IAllData;
-use App\service\Iservice;
+use App\Service\IAllData;
+use App\Service\Iservice;
 
 class AllData implements IAllData {
     
     private Iservice $service;
+
+    public function __construct(Iservice $service)
+    {
+        $this->service = $service;
+    }
 
     public function getService() {
         return $this->service;

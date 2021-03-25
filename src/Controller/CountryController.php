@@ -3,8 +3,7 @@
 namespace App\Controller;
 
 use App\Data\SearchData;
-use App\service\AllData;
-use App\service\CountryAPI;
+use App\Service\AllData;
 use App\Form\SearchFormType;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Contracts\Cache\CacheInterface;
@@ -18,13 +17,9 @@ class CountryController extends AbstractController
     /**
      * @Route("/countries", name="countries")
      */
-    public function index(PaginatorInterface $paginator, Request $request, CacheInterface $cache): Response
+    public function index(PaginatorInterface $paginator, Request $request, CacheInterface $cache,
+    AllData $allData): Response
     {
-        $allData = new AllData();
-        $countryApi = new CountryAPI();
-        $allData->setService($countryApi);
-        //$countries = $allData->getAllData()["country"];
-
         $countries = $cache->get('countries', function() use($allData) {
             return $allData->getAllData()["country"];
         });

@@ -7,9 +7,6 @@ parameters:
     app.api_country: 'http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?wsdl'
 
 services:
-    App\service\CountryAPI:
-        arguments:
-            $api_country: '%app.api_country%'
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
@@ -24,7 +21,20 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
+    
+    # ajouter le service de CountryAPI
+    App\Service\CountryAPI:
+        arguments:
+            $api_country: '%app.api_country%'
 
+    # relier l'interface Iservice avec CountryAPIs
+    App\Service\Iservice: '@App\Service\CountryAPI'
+    
+    # ajouter le service de AllData    
+    App\Service\AllData:
+        arguments:
+            $service: '@App\Service\CountryAPI'   
+    
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
     App\Controller\:
