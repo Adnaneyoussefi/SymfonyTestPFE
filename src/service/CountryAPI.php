@@ -22,6 +22,11 @@ class CountryAPI implements Iservice {
                 "continent" => $this->getContinentWithCountryData($soapClient), 
                 "language" => $this->getLanguageWithCountryData($soapClient)];
     }
+
+    public function getModel($id): array
+    {
+        return [];
+    }
     
     /**
      * @return Continent[]

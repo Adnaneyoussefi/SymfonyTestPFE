@@ -13,10 +13,12 @@ class UserController extends AbstractController
      */
     public function index(): Response
     {
-        $soapClient = new \SoapClient('http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?wsdl');
+        $soapClient = new \SoapClient('http://www.dneonline.com/calculator.asmx?wsdl');
         $params = new \stdClass();
-        $params->sCountryISOCode = 'MAR';
-        $result = $soapClient->CapitalCity($params);
+        $params->intA = 4;
+        $params->intB = 3;
+        $result = $soapClient->Multiply($params);
+        dump($result);
         return $this->render('user/index.html.twig', [
             'controller_name' => 'UserController',
         ]);

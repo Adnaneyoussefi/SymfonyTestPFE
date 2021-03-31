@@ -25,4 +25,8 @@ class AllData implements IAllData {
     public function getAllData(): array {
         return $this->service->getModels();
     }
+
+    public function getData($id): array {
+        return $this->service->getModel($id);
+    }
 }

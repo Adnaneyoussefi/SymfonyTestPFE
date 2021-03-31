@@ -40,7 +40,7 @@
                         <img class="card-img-top" style="max-height:143px; height:143px" src={{country.sCountryFlag}} alt="Card image cap">
                             <div class="card-header font-weight-bold">{{country.sName}}</div>
                             <div class="card-body text-dark">
-                                <p><b>Capitale:</b> {{country.sCapitalCity}}</p>
+                                <a href="{{ path('weather', {'name': country.sCapitalCity}) }}"><p><b>Capitale:</b> {{country.sCapitalCity}}</p></a>
                                 <p style="font-size: 14px;"><b>Phone Code:</b> {{country.sPhoneCode}}</p>
                                 <p style="font-size: 14px;"><b>Langages:</b>
                                 {% for language in country.languages %}

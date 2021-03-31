@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use GuzzleHttp\Client;
 use App\Data\SearchData;
 use App\Service\AllData;
 use App\Form\SearchFormType;
@@ -10,6 +11,7 @@ use Symfony\Contracts\Cache\CacheInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class CountryController extends AbstractController
@@ -18,10 +20,13 @@ class CountryController extends AbstractController
      * @Route("/countries", name="countries")
      */
     public function index(PaginatorInterface $paginator, Request $request, CacheInterface $cache,
-    AllData $allData): Response
+    AllData $a, AllData $w): Response
     {
-        $countries = $cache->get('countries', function() use($allData) {
-            return $allData->getAllData()["country"];
+        //dump($w->getAllData());
+        ////////////////////
+        //$countries = $a->getAllData()["country"];
+        $countries = $cache->get('countries', function() use($a) {
+            return $a->getAllData()["country"];
         });
 
         $data = new SearchData();
@@ -71,5 +76,14 @@ class CountryController extends AbstractController
             return $v->Languages;
         }, $result);
         */
+    }
+
+    /**
+     * @Route("/countries/weather/{name}", name="weather")
+     */
+    public function weather(string $name, AllData $w)
+    {
+        var_dump($w->getData($name));
+        return $this->render('country/weather.html.twig');
     }
 }

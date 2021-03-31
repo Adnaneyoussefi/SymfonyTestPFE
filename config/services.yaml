@@ -5,7 +5,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     app.api_country: 'http://webservices.oorsprong.org/websamples.countryinfo/CountryInfoService.wso?wsdl'
-
+    app.api_weather: 'http://api.openweathermap.org/data/2.5/weather'
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -25,15 +25,25 @@ services:
     # ajouter le service de CountryAPI
     App\Service\CountryAPI:
         arguments:
-            $api_country: '%app.api_country%'
-
-    # relier l'interface Iservice avec CountryAPIs
-    App\Service\Iservice: '@App\Service\CountryAPI'
+            $api_country: '%app.api_country%' 
     
-    # ajouter le service de AllData    
-    App\Service\AllData:
+    # ajouter le service de WeatherAPI
+    App\Service\WeatherAPI:
         arguments:
-            $service: '@App\Service\CountryAPI'   
+            $api_weather: '%app.api_weather%' 
+
+    all_data.country:
+        class: App\Service\AllData
+        arguments:
+            $service: '@App\Service\CountryAPI'
+        
+    all_data.weather:
+        class: App\Service\AllData
+        arguments:
+            $service: '@App\Service\WeatherAPI'        
+    
+    App\Service\AllData $a: '@all_data.country'
+    App\Service\AllData $w: '@all_data.weather'
     
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
