@@ -16,10 +16,10 @@ class ContinentController extends AbstractController
     /**
      * @Route("/continents", name="continents")
      */
-    public function index(CacheInterface $cache, AllData $allData): Response
+    public function index(CacheInterface $cache, AllData $a): Response
     {
-        $continents = $cache->get('continents', function() use($allData) {
-            return $allData->getAllData()["continent"];
+        $continents = $cache->get('continents', function() use($a) {
+            return $a->getAllData()["continent"];
         });
         
         return $this->render('continent/index.html.twig', [
@@ -31,10 +31,10 @@ class ContinentController extends AbstractController
      * @Route("/continents/{sCode}", name="countryByContinent", methods={"GET","POST"})
      */
     public function afficher(PaginatorInterface $paginator, Request $request, CacheInterface $cache, 
-    AllData $allData): Response {
+    AllData $a): Response {
         
-        $continents = $cache->get('continents', function() use($allData) {
-            return $allData->getAllData()["continent"];
+        $continents = $cache->get('continents', function() use($a) {
+            return $a->getAllData()["continent"];
         });
         
         $routeParameters = $request->attributes->get('_route_params');

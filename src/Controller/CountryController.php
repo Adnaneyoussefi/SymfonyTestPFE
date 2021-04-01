@@ -22,9 +22,6 @@ class CountryController extends AbstractController
     public function index(PaginatorInterface $paginator, Request $request, CacheInterface $cache,
     AllData $a, AllData $w): Response
     {
-        //dump($w->getAllData());
-        ////////////////////
-        //$countries = $a->getAllData()["country"];
         $countries = $cache->get('countries', function() use($a) {
             return $a->getAllData()["country"];
         });
@@ -53,13 +50,12 @@ class CountryController extends AbstractController
             12
         );
 
+        dump($request->attributes->get('_route_params'));
         return $this->render('country/index.html.twig', [
             'controller_name' => 'CountrieController',
             'listCountrie' => $page,
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
-
-        //$params = new \stdClass();
 
         /*$msc = microtime(true);
         $soapClient->FullCountryInfoAllCountries()
@@ -67,15 +63,6 @@ class CountryController extends AbstractController
         ->tCountryInfo;
         $msc = microtime(true)-$msc;
         var_dump($msc);*/
-        
-        /*$a = array_filter($result, function($x) {
-            return (!isset($x->Languages->tLanguage));
-        });
-        
-        $b = array_map(function ($v) {
-            return $v->Languages;
-        }, $result);
-        */
     }
 
     /**
@@ -83,7 +70,6 @@ class CountryController extends AbstractController
      */
     public function weather(string $name, AllData $w)
     {
-        var_dump($w->getData($name));
-        return $this->render('country/weather.html.twig');
+        return $this->json($w->getData($name));
     }
 }
